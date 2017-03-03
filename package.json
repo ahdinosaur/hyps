@@ -1,6 +1,6 @@
 {
   "name": "hyps",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "minimal hyperscript module compatible with @skatejs/val",
   "main": "index.js",
   "scripts": {
