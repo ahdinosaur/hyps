@@ -1,4 +1,4 @@
-const dom = require('@skatejs/val')
-const h = require('./h')
-
-module.exports = dom(h)
+module.exports = {
+  create: require('./create'),
+  update: require('./update')
+}

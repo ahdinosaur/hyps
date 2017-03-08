@@ -40,8 +40,7 @@
     "tape-run": "^2.2.1"
   },
   "dependencies": {
-    "@skatejs/val": "0.0.0",
-    "array-flatten": "^2.1.1",
-    "es2040": "^1.2.3"
+    "es2040": "^1.2.3",
+    "morphdom": "^2.3.1"
   }
 }

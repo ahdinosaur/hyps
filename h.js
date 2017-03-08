@@ -1,2 +1,1 @@
-// back compat
-module.exports = require('./createElement')
+module.exports = require('./create')
