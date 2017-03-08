@@ -1,4 +1,4 @@
-/*global Event*/
+/* global Event */
 
 const test = require('tape')
 const hyps = require('../')
@@ -34,8 +34,8 @@ test('custom event listeners and properties are ignored', function (t) {
   newEl.addEventListener('foobar', c)
   hyps.update(el, newEl)
   t.equal(el.foo, undefined, 'no el.foo')
-  newEl.dispatchEvent(new Event('foobar'))
-  newEl.click()
+  el.dispatchEvent(new Event('foobar'))
+  el.click()
 })
 
 test('input values get copied', function (t) {
