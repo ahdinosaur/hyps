@@ -1,7 +1,23 @@
 /* global HTMLElement */
-const test = require('tape')
 
-const create = require('../create')
+const test = require('tape')
+const jsdom = require('jsdom')
+
+var create
+
+test('load window', function (t) {
+  jsdom.env('', (err, win) => {
+    global.document = win.document
+    global.window = win
+    global.HTMLElement = win.HTMLElement
+
+    create = require('../create')
+
+    t.error(err)
+    t.pass('created window')
+    t.end()
+  })
+})
 
 test('create', function (t) {
   t.ok(create, 'module is require-able')
@@ -104,4 +120,10 @@ test('create(, { ref: },)', function (t) {
       t.end()
     }
   })
+})
+
+test('unload window', function (t) {
+  window.close()
+  t.pass('unloaded window')
+  t.end()
 })
