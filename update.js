@@ -1,4 +1,5 @@
 const morphdom = require('morphdom')
+const setValue = require('@f/set-value')
 
 const listeners = require('./listeners')
 
@@ -43,23 +44,21 @@ function copyEvents (fromNode, toNode) {
 }
 
 function copyValues (fromNode, toNode) {
-  var oldValue = fromNode.value
-  var newValue = toNode.value
+  const oldValue = fromNode.value
+  const newValue = toNode.value
+
   // copy values for form elements
   if (
-    (
-    fromNode.nodeName === 'INPUT' &&
-    fromNode.type !== 'file'
-    ) ||
+    (fromNode.nodeName === 'INPUT' && fromNode.type !== 'file') ||
     fromNode.nodeName === 'SELECT'
   ) {
     if (!newValue) {
-      toNode.value = fromNode.value
+      setValue(toNode, oldValue)
     } else if (newValue !== oldValue) {
-      fromNode.value = newValue
+      setValue(fromNode, newValue)
     }
   } else if (fromNode.nodeName === 'TEXTAREA') {
-    if (toNode.getAttribute('value') === null) fromNode.value = toNode.value
+    if (toNode.getAttribute('value') === null) setValue(fromNode, newValue)
   }
 }
 
