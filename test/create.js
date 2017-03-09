@@ -162,6 +162,14 @@ test('create(, { ref: },)', function (t) {
   })
 })
 
+test('create(, { style: },)', function (t) {
+  const el = create('div', {
+    style: {color: '#000'}
+  })
+  t.ok(el.style.color)
+  t.end()
+})
+
 test('unload window', function (t) {
   window.close()
   t.pass('unloaded window')
