@@ -170,6 +170,17 @@ test('create(, { style: },)', function (t) {
   t.end()
 })
 
+test('create(, { attributes: },)', function (t) {
+  const attrType = 'style'
+  const attrVal = {color: '#000'}
+  const el = create('div', {
+    attributes: {[attrType]: attrVal} 
+  })
+  t.equal(el.attributes[0].name, attrType)
+  t.end()
+})
+
+
 test('unload window', function (t) {
   window.close()
   t.pass('unloaded window')
