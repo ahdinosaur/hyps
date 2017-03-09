@@ -1,6 +1,6 @@
 # hyps
 
-minimal `h` hyperscript module wrapped with [@skatejs/val](https://github.com/skatejs/val)
+`hyps` is a [hyperscript-style](https://github.com/hyperhype/awesome-hyperscript) module to create and update pure DOM elements.
 
 ```shell
 npm install --save hyps
@@ -10,24 +10,29 @@ npm install --save hyps
 
 ### `hyps = require('hyps')`
 
-### `HTMLElement el = hyps(tag, props, ...children)`
+### `element = hyps.create(tagName, [properties], [children])`
 
-`hyps` is `@skatejs/val` wrapping `hyps/h`
+`tagName` is a string that specifies the type of element to be created, which is passed into [`document.createElement`](https://developer.mozilla.org/en-US/docs/Web/API/document/createElement).
 
-see [`@skatejs/val#usage`](https://github.com/skatejs/val#usage)
+`properties` is an object with the following:
 
-### `h = require('hyps/h')`
+- `attributes`: an object mapping attribute names to values, which is passed into `element.setAttribute(name, value)`.
+- `events`: an object mapping event names to listeners. which is passed into `element.addEventListener(name, listener)`.
+- `hooks`: TODO an array of functions ("hooks") called when element is added to the dom. if hook returns function, that will be called when the element is removed from the dom.
+- `data`: TODO
+- `style`: either an element style string or an object mapping element style properties to values, which is either passed into `element.style = style` or `element.style.setProperty(name, value)`, respectively.
 
-### `HTMLElement el = h(tag, props, ...children)`
+`children` is either an `Array`, `Node`, `Element`, or `String`. an `Array` may contained nested `Array`s.
 
-`h` is the minimal html element factory function
+`element` returned is an `instanceof` `Node` or `Element`.
 
-it only:
+### `hyps.update(targetElement, newElement, [options])`
 
-- creates `HTMLElement` with `tag`
-- flattens and appends child nodes to node
-  - if child is string, creates text node
-- calls `props.ref` if given
+uses [`morphdom`](https://github.com/patrick-steele-idem/morphdom) to efficently update an element by diffing and morphing a new element onto an existing target element.
+
+any options passed in will be passed to `morphdom`.
+
+### `elementListeners = hyps.listeners.get(element)`
 
 ## license
 
