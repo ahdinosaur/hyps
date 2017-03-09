@@ -7,7 +7,9 @@ function create (tag, properties, children) {
 }
 
 function Element (document, namespace, tag, properties, children) {
-  var element = document.createElement(tag)
+  var element = namespace
+    ? document.createElementNS(namespace, tag)
+    : document.createElement(tag)
 
   if (children) appendChildren(document, element, children)
 
