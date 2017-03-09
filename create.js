@@ -1,9 +1,18 @@
+const setAttribute = require('@f/set-attribute')
+
 const listeners = require('./listeners')
 
+const SVG_NS = 'http://www.w3.org/2000/svg'
+
 module.exports = create
+module.exports.svg = createSvg
 
 function create (tag, properties, children) {
   return Element(global.document, null, tag, properties, children)
+}
+
+function createSvg (tag, properties, children) {
+  return Element(global.document, SVG_NS, tag, properties, children)
 }
 
 function Element (document, namespace, tag, properties, children) {
@@ -53,7 +62,7 @@ function appendChildren (document, element, childs) {
 
 function applyAttributes (element, attributes = {}) {
   for (const name in attributes) {
-    element.setAttribute(name, attributes[name])
+    setAttribute(element, name, attributes[name])
   }
 }
 

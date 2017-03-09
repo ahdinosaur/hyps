@@ -41,6 +41,7 @@
     "tape-run": "^2.2.1"
   },
   "dependencies": {
+    "@f/set-attribute": "^1.0.1",
     "es2040": "^1.2.3",
     "morphdom": "^2.3.1"
   }
