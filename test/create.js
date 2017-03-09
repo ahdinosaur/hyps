@@ -111,6 +111,46 @@ test('create(, props, ...children)', function (t) {
   t.end()
 })
 
+test('creates children of type number converted to string', function (t) {
+  const number = 1
+  const el = create('section', {}, number)
+  const childs = el.childNodes
+  t.equal(childs[0].textContent, String(number))
+  t.end()
+})
+
+test('creates children of type boolean converted to string', function (t) {
+  const boolean = true
+  const el = create('section', {}, boolean)
+  const childs = el.childNodes
+  t.equal(childs[0].textContent, String(boolean))
+  t.end()
+})
+
+test('creates children of type function converted to string', function (t) {
+  const func = function myFunc () {}
+  const el = create('section', {}, func)
+  const childs = el.childNodes
+  t.equal(childs[0].textContent, String(func))
+  t.end()
+})
+
+test('creates children of type date converted to string', function (t) {
+  const date = new Date()
+  const el = create('section', {}, date)
+  const childs = el.childNodes
+  t.equal(childs[0].textContent, String(date))
+  t.end()
+})
+
+test('creates children of type regex converted to string', function (t) {
+  const regex = new RegExp('.')
+  const el = create('section', {}, regex)
+  const childs = el.childNodes
+  t.equal(childs[0].textContent, String(regex))
+  t.end()
+})
+
 test('create(, { ref: },)', function (t) {
   create('div', {
     ref: function (el) {
@@ -120,6 +160,32 @@ test('create(, { ref: },)', function (t) {
       t.end()
     }
   })
+})
+
+test('create(, { style: },)', function (t) {
+  const el = create('div', {
+    style: {color: '#000'}
+  })
+  t.ok(el.style.color)
+  t.end()
+})
+
+test('create(, { attributes: },)', function (t) {
+  const attrType = 'style'
+  const attrVal = {color: '#000'}
+  const el = create('div', {
+    attributes: {[attrType]: attrVal}
+  })
+  t.equal(el.attributes[0].name, attrType)
+  t.end()
+})
+
+test('create(, { events: },)', function (t) {
+  t.plan(1)
+  const el = create('div', {
+    events: {click: t.ok}
+  })
+  el.click()
 })
 
 test('unload window', function (t) {
