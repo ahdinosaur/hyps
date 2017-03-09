@@ -180,6 +180,13 @@ test('create(, { attributes: },)', function (t) {
   t.end()
 })
 
+test('create(, { events: },)', function (t) {
+  t.plan(1)
+  const el = create('div', {
+    events: {click : t.ok} 
+  })
+  el.click()
+})
 
 test('unload window', function (t) {
   window.close()
