@@ -1,0 +1,33 @@
+- add onLoad listener to cache
+- when mutation,
+  - check if added nodes are in onLoad
+  - check if removed nodes are in onUnload
+- if onLoad, call
+  - add return value (if any) to onUnload
+
+- add onLoad listener to cache
+  - add special attribute with special value to node
+- when parent / child mutation,
+  - check if added nodes are in onLoad
+  - check if removed nodes are in onUnload
+- when attribute mutation
+  - 
+- if onLoad, call
+  - add return value (if any) to onUnload
+
+** element -> caller -> handler **
+
+- when create element
+ - set element -> caller
+ - set caller -> onLoad
+- when element added,
+  - call onLoad
+  - set target element -> source element caller
+- when element morphed,
+  - if target element caller !== source element caller
+    - call source element onLoad
+    - call target element onUnload
+    - set target element -> source element caller
+- when element removed,
+  - call onUnload
+  - remove target element caller

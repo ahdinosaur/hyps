@@ -1,25 +1,25 @@
 const morphdom = require('morphdom')
 const setValue = require('@f/set-value')
 
-const listeners = require('./listeners')
+const listenersCache = require('./listeners')
 
 module.exports = update
 
-function update (fromNode, toNode, opts = {}) {
-  if (!opts.onBeforeElUpdated) opts.onBeforeElUpdated = copier
-
-  return morphdom(fromNode, toNode, opts)
+function update (fromNode, toNode) {
+  return morphdom(fromNode, toNode, {
+    onBeforeElUpdated,
+  })
 }
 
 // inspiration from https://github.com/maxogden/yo-yo/blob/b4e1e8fe2e1081464c1fbdd1ad6c7a0ae7e24ad1/index.js
-function copier (fromNode, toNode) {
+function onBeforeElUpdated (fromNode, toNode) {
   copyEvents(fromNode, toNode)
   copyValues(fromNode, toNode)
 }
 
 function copyEvents (fromNode, toNode) {
-  const toEventListeners = listeners.get(toNode)
-  const fromEventListeners = listeners.get(fromNode)
+  const toEventListeners = listenersCache.get(toNode)
+  const fromEventListeners = listenersCache.get(fromNode)
 
   // iterate through all event listeners
   uniqueKeys(toEventListeners, fromEventListeners).forEach(name => {

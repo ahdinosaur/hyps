@@ -1,6 +1,7 @@
 const setAttribute = require('@f/set-attribute')
 
-const listeners = require('./listeners')
+const listenersCache = require('./listeners')
+const hooksCache = require('./hooks')
 
 const SVG_NS = 'http://www.w3.org/2000/svg'
 
@@ -67,7 +68,7 @@ function applyAttributes (element, attributes = {}) {
 }
 
 function applyEvents (element, events = {}) {
-  listeners.set(element, events)
+  listenersCache.set(element, events)
 
   for (const name in events) {
     element.addEventListener(name, events[name])
@@ -80,8 +81,18 @@ function applyStyle (element, style = {}) {
   }
 }
 
-function applyRef (element, ref) {
-  if (ref) ref(element)
+function applyHooks (element, hooks = []) {
+  hooksCache.onLoad.set(element, hooks.map(hook => {
+    return (node) => runHook(node, hook)
+  }))
+}
+
+function runHook (node, hook) {
+  const onUnload = hook(node)
+  hooksCache.onUnload.set(
+    node,
+    [...hooksCache.onUnload.get(node), onUnload]
+  )
 }
 
 function applyProperties (element, properties = {}) {
@@ -91,16 +102,18 @@ function applyProperties (element, properties = {}) {
 }
 
 function applyOptions (element, options = {}) {
-  var attributes, events, style, ref
+  const { attributes, events, style, hooks } = options
+
   var properties = {}
   for (const name in options) {
-    const value = options[name]
     switch (name) {
-      case 'attributes': attributes = value; break
-      case 'events': events = value; break
-      case 'style': style = value; break
-      case 'ref': ref = value; break
-      default: properties[name] = value
+      case 'attributes':
+      case 'events':
+      case 'style':
+      case 'hooks':
+        break
+      default:
+        properties[name] = options[name]
     }
   }
 
@@ -108,7 +121,7 @@ function applyOptions (element, options = {}) {
   applyEvents(element, events)
   applyProperties(element, properties)
   applyStyle(element, style)
-  applyRef(element, ref)
+  applyHooks(element, hooks)
 
   return element
 }
